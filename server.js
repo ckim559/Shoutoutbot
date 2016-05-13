@@ -235,7 +235,7 @@ controller.hears(['Opportunity Search', '#Opportunity', '#Opportunities', '#os']
 
    let askName = (response, convo) => {
 
-        convo.ask("What is the Account Name?  (or enter '%' for all Accounts)", (response, convo) => {
+        convo.ask("What is the Account Name?  (or enter '%' for all accounts)", (response, convo) => {
 		name = response.text; 
 		 if(name == '%' || name == "'%'")
 			{
@@ -261,12 +261,61 @@ controller.hears(['Opportunity Search', '#Opportunity', '#Opportunities', '#os']
 		else {
 		 owner = response.text;
 			};	
-			askStage(response, convo);
+			askRT(response, convo);
 			convo.next();
 	   });	
 
 	};
 
+   let askRT = (response, convo) => {
+	   convo.ask("Which Opportunity Record Type?:" + "\n" + "1. All" + "\n" + "2. Advisory Services" + "\n" + "3. FourFronts" + "\n" + "4. Partner" + "\n" + "5. Technology" + "\n" + "6. Training"", (response, convo) => {
+		   recordt = response.text;
+		   
+		   if(recordt.toUpperCase() == 'ALL' || recordt.toUpperCase() == '1. ALL' || recordt == '1' || recordt == '1.' || recordt == '%')
+		   {
+			   recordt = '%';
+			   askStage(response, convo);
+			   convo.next();
+		   }
+		   else if (recordt.toUpperCase() == 'ADVISORYSERVICES'  || recordt.toUpperCase() == 'ADVISORY SERVICES' || recordt.toUpperCase() == '2. ADVISORY SERVICES' || recordt.toUpperCase() == 'AS' || recordt == '2' || recordt == '2.')
+		   {
+			   recordt = 'Advisory Services';
+			   askStage(response, convo);
+			   convo.next();
+		   }
+		    else if (recordt.toUpperCase() == 'FourFronts' || recordt.toUpperCase() == '3. FourFronts' || recordt.toUpperCase() == 'FF' || recordt == '3' || recordt == '3.')
+		   {
+			   recordt = 'FourFronts';
+			   askStage(response, convo);
+			   convo.next();
+		   }
+		    else if (recordt.toUpperCase() == 'PARTNER' || recordt.toUpperCase() == '4. PARTNER' || recordt == '4' || recordt == '4.')
+		   {
+			   recordt = 'Partner';
+			   askStage(response, convo);
+			   convo.next();
+		   }
+		    else if (recordt.toUpperCase() == 'TECHNOLOGY' || recordt.toUpperCase() == '5. TECHNOLOGY' || recordt.toUpperCase() == 'TECH' || recordt == '5' || recordt == '5.')
+		   {
+			   recordt = 'Technology';
+			   askStage(response, convo);
+			   convo.next();
+		   }
+		    else if (recordt.toUpperCase() == 'TRAINING' || recordt.toUpperCase() == '6. TRAINING' || recordt == '6' || recordt == '6.')
+		   {
+			   recordt = 'Training';
+			   askStage(response, convo);
+			   convo.next();
+		   }
+		   else
+			{
+			bot.reply(message, "Sorry that is not a valid option. Please try again.");				
+			askRT(response, convo);
+			convo.next();
+			}
+	   });
+   };	
+   
    let askStage = (response, convo) => {
 	   convo.ask("Which Opportunity Stage Status?:" + "\n" + "1. All" + "\n" + "2. Closed Won" + "\n" + "3. Open", (response, convo) => {
 		   stage = response.text;
@@ -325,7 +374,7 @@ controller.hears(['Opportunity Search', '#Opportunity', '#Opportunities', '#os']
 				}
 			if(type == '%' || type == 'New' || type == 'Renewal' || type == 'Add On')
 			{
-				salesforce.findOpportunity4(type, owner, name, stage)
+				salesforce.findOpportunity4(type, owner, name, stage, recordt)
 				.then(opportunities => bot.reply(message, {
 				text: "Here are the matching opportunities I found:" ,
 				attachments: formatter.formatOpportunities(opportunities)
