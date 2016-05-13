@@ -231,7 +231,8 @@ controller.hears(['Opportunity Search', '#Opportunity', '#Opportunities', '#os']
   let name,
 	  owner,
 	  stage,
-	  type;
+	  type,
+	  recordt;
 
    let askName = (response, convo) => {
 
