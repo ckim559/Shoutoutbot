@@ -269,7 +269,7 @@ controller.hears(['Opportunity Search', '#Opportunity', '#Opportunities', '#os']
 	};
 
    let askRT = (response, convo) => {
-	   convo.ask("Which Opportunity Record Type?:" + "\n" + "1. All" + "\n" + "2. Advisory Services" + "\n" + "3. FourFronts" + "\n" + "4. Partner" + "\n" + "5. Technology" + "\n" + "6. Training"", (response, convo) => {
+	   convo.ask("Which Opportunity Record Type?:" + "\n" + "1. All" + "\n" + "2. Advisory Services" + "\n" + "3. FourFronts" + "\n" + "4. Partner" + "\n" + "5. Technology" + "\n" + "6. Training", (response, convo) => {
 		   recordt = response.text;
 		   
 		   if(recordt.toUpperCase() == 'ALL' || recordt.toUpperCase() == '1. ALL' || recordt == '1' || recordt == '1.' || recordt == '%')
