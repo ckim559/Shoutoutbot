@@ -373,9 +373,18 @@ controller.hears(['Opportunity Search', '!Opportunity', '!Opportunities', '!os']
 					askType(response, convo);
 					convo.next();
 				}
-			if(type == '%' || type == 'New' || type == 'Renewal' || type == 'Add On')
+			if(type == '%')
 			{
-				salesforce.findOpportunity4(type, owner, name, stage, recordt)
+				salesforce.findOpportunity4(owner, name, stage, recordt)
+				.then(opportunities => bot.reply(message, {
+				text: "Here are the matching opportunities I found:" ,
+				attachments: formatter.formatOpportunities(opportunities)
+				}));
+				convo.next();
+			}
+			else
+			{
+				salesforce.findOpportunity5(type, owner, name, stage, recordt)
 				.then(opportunities => bot.reply(message, {
 				text: "Here are the matching opportunities I found:" ,
 				attachments: formatter.formatOpportunities(opportunities)
