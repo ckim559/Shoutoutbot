@@ -184,10 +184,10 @@ let findOpportunity3 = name => {
 
 };
 
-let findOpportunity4 = (type, owner, name, stage) => {
+let findOpportunity4 = (type, owner, name, stage, recordt) => {
 
     return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opp_Stage__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Opp_Type__c LIKE '" + type + "%' AND Opportunity_Owner__c LIKE '%" + owner + "%' AND Opp_Stage__c LIKE '%" + stage + "%' AND Opp_Account_Name_API__c LIKE '%" + name + "%' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
+        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opp_Stage__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Opp_Type__c LIKE '" + type + "%' AND Opportunity_Owner__c LIKE '%" + owner + "%' AND Opp_Stage__c LIKE '%" + stage + "%' AND Opp_Account_Name_API__c LIKE '%" + name + "%' AND Opportunity_Record_Type__c LIKE '" + recordt + "' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
         org.query({query: q}, (err, resp) => {
             if (err) {
                 reject("An error as occurred");
