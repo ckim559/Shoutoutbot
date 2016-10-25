@@ -1,98 +1,70 @@
 "use strict";
 
- let color = "#009cdb";
-
-let formatAccounts = accounts => {
-    if (accounts && accounts.length>0) {
-        let attachments = [];
-	color = "#009cdb";
-        accounts.forEach(account => {
-            let fields = [];
-            fields.push({title: "Name", value: account.get("Name"), short:true});
-            fields.push({title: "Link", value: "https://login.salesforce.com/" + account.getId(), short:true});
-            fields.push({title: "Owner", value: account.get("Account_Owner__c"), short:true});
-            fields.push({title: "Type", value: account.get("Type"), short:true});
-            attachments.push({color: color, fields: fields});
-        });
-        return attachments;
-    } else {
-        return [{text: "No records"}];
-    }
-
-};
-
-
-let formatContacts = contacts => {
-    
-    if (contacts && contacts.length>0) {
-        let attachments = [];
-        color = "#dbad00";
-        contacts.forEach(contact => {
-            let fields = [];
-            fields.push({title: "Name", value: contact.get("Name"), short:true});
-            fields.push({title: "Link", value: "https://login.salesforce.com/" + contact.getId(), short:true});
-            fields.push({title: "Title", value: contact.get("Title"), short:true});
-	    fields.push({title: "Account:", value: contact.get("Account_Name_API__c"), short:true});
-	    fields.push({title: "Email", value: contact.get("Email"), short:true});
-            fields.push({title: "Mobile", value: contact.get("MobilePhone"), short:true});
-            attachments.push({color: color, fields: fields});
-        });
-        return attachments;
-    } else {
-        return [{text: "No records"}];
-    }
-
-};
-
-let formatContact = contact => {
-    color = "#dbad00";	
-    let fields = [];
-    fields.push({title: "Name", value: contact.get("FirstName") + " " + contact.get("LastName"), short:true});
-    fields.push({title: "Link", value: "https://login.salesforce.com/" + contact.getId(), short:true});
-    fields.push({title: "Title", value: contact.get("Title"), short:true});
-    fields.push({title: "Account:", value: contact.get("Account_Name_API__c"), short:true});
-    fields.push({title: "Email", value: contact.get("Email"), short:true});
-    fields.push({title: "Mobile", value: contact.get("MobilePhone"), short:true});
-    return [{color: color, fields: fields}];
-
-};
-
-let formatOpportunities = opportunities => {
-
-    if (opportunities && opportunities.length>0) {
-    	color = "#db002f";
-        let attachments = [];
-        opportunities.forEach(opportunity => {
-            let fields = [];
-            fields.push({title: "Opportunity", value: opportunity.get("Name"), short:true});
-            fields.push({title: "Link", value: "https://login.salesforce.com/" + opportunity.getId(), short:true});
-	    fields.push({title: "Account", value: opportunity.get("Opp_Account_Name_API__c"), short:true});
-	    fields.push({title: "Opportunity Owner", value: opportunity.get("Opportunity_Owner__c"), short:true});
-            fields.push({title: "Stage", value: opportunity.get("StageName"), short:true});
-            fields.push({title: "Close Date", value: opportunity.get("CloseDate"), short:true});
-	    fields.push({title: "Record Type", value: opportunity.get("Opportunity_Record_Type__c"), short:true});
-	    fields.push({title: "Opportunity Type", value: opportunity.get("Opp_Type__c"), short:true});
-            attachments.push({color: color, fields: fields});
-        });
-        return attachments;
-    } else {
-        return [{text: "No records"}];
-    }
-
-};
+let color = "#009cdb";
 
 let formatCase = _case => {
 
     let fields = [];
-    fields.push({title: "Subject", value: _case.get("subject"), short: true});
-    fields.push({title: "Link", value: 'https://login.salesforce.com/' + _case.get("id"), short: true});
-    fields.push({title: "Description", value: _case.get("description"), short: false});
+	fields.push({title: "Case Subject:", value: _case.get("Subject"), short: false});
+    fields.push({title: "Case URL:", value: 'https://login.salesforce.com/' + _case.get("id"), short: false});
     return [{color: color, fields: fields}];
 
 };
 
-exports.formatAccounts = formatAccounts;
-exports.formatContacts = formatContacts;
-exports.formatContact = formatContact;
-exports.formatOpportunities = formatOpportunities;
+let formatOpenCases = cases => {
+
+    if (cases && cases.length>0) {
+        let attachments = [];
+		color = "#009cdb";
+        cases.forEach(_case => {
+            let fields = [];
+            fields.push({title: "Case Subject:", value: _case.get("Subject"), short: true});
+			fields.push({title: "Case Number:", value: _case.get("CaseNumber"), short: true});
+			fields.push({title: "Case Status:", value: _case.get("Status"), short: true});
+			fields.push({title: "Assignment Due Date:", value: _case.get("Resource_Assignment_Due_Date__c"), short: true});
+			fields.push({title: "Project Description:", value: _case.get("Description"), short: false});
+			fields.push({title: "Project Scope:", value: _case.get("Project_Scope__c"), short: false});
+			fields.push({title: "Project Manager Required?", value: _case.get("PJM_Req__c"), short: true});
+			fields.push({title: "Account Manager Required?:", value: _case.get("AM_Req__c"), short: true});
+			fields.push({title: "Solutions Engineer Required?:", value: _case.get("SE_Req__c"), short: true});
+			fields.push({title: "Advisory Services Required?:", value: _case.get("AS_Req__c"), short: true});
+			fields.push({title: "Case URL:", value: 'https://login.salesforce.com/' + _case.get("id"), short: false});
+            attachments.push({color: color, fields: fields});
+        });
+        return attachments;
+    } else {
+        return [{text: "No records"}];
+    }
+
+};
+
+let formatClosedCases = cases => {
+
+    if (cases && cases.length>0) {
+        let attachments = [];
+		color = "#009cdb";
+        cases.forEach(_case => {
+            let fields = [];
+            fields.push({title: "Case Subject:", value: _case.get("Subject"), short: true});
+			fields.push({title: "Case Number:", value: _case.get("CaseNumber"), short: true});
+			fields.push({title: "Case Status:", value: _case.get("Status"), short: true});
+			fields.push({title: "Assignment Due Date:", value: _case.get("Resource_Assignment_Due_Date__c"), short: true});
+			fields.push({title: "Project Description:", value: _case.get("Description"), short: false});
+			fields.push({title: "Project Scope:", value: _case.get("Project_Scope__c"), short: false});
+			fields.push({title: "Project Manager:", value: _case.get("Project_Manager_Assigned__c"), short: true});
+			fields.push({title: "Account Manager:", value: _case.get("Account_Manager_Assigned__c"), short: true});
+			fields.push({title: "Solutions Engineer(s):", value: _case.get("SE_assigned_to_GTM_Project__c"), short: true});
+			fields.push({title: "AS Resources:", value: _case.get("AS_Assignments__c"), short: true});
+			fields.push({title: "Case URL:", value: 'https://login.salesforce.com/' + _case.get("id"), short: false});
+            attachments.push({color: color, fields: fields});
+        });
+        return attachments;
+    } else {
+        return [{text: "No records"}];
+    }
+
+};
+
+exports.formatOpenCases = formatOpenCases;
+exports.formatClosedCases = formatClosedCases;
 exports.formatCase = formatCase;
