@@ -28,14 +28,6 @@ controller.hears(['hello', 'hi', 'hey', 'greetings', 'help'], 'direct_message,di
 
 
 
-controller.hears(['Destroyself'], 'direct_message,direct_mention,mention', (bot, message) => {
-    bot.reply(message, {
-        text: `Goodbye`
-    });
-	bot.destroy()
-});
-
-
 controller.hears(['Find my open cases'], 'direct_message,direct_mention,mention', (bot, message) => {
 	
 	bot.api.users.info({user: message.user}, function(err, info){
