@@ -7,7 +7,7 @@ let nforce = require('nforce'),
     SF_USER_NAME = process.env.SF_USER_NAME,
     SF_PASSWORD = process.env.SF_PASSWORD,
 
-   org = nforce.createConnection({
+  org = nforce.createConnection({
         clientId: SF_CLIENT_ID,
         clientSecret: SF_CLIENT_SECRET,
         redirectUri: 'http://localhost:3000/oauth/_callback',
@@ -28,229 +28,7 @@ let login = () => {
 
 };
 
-let findAccount = name => {
 
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Phone, Account_Owner__c , Type , BillingStreet, BillingCity, BillingState FROM Account WHERE Name LIKE '%" + name + "%' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                console.log(err);
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-
-let findAccount2 = name => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Phone, Account_Owner__c  , Type, BillingStreet, BillingCity, BillingState FROM Account WHERE Account_Owner__c LIKE '%" + name + "%' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                console.log(err);
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-
-let findAccount3 = (owner, name) => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Phone, Account_Owner__c  , Type, BillingStreet, BillingCity, BillingState FROM Account WHERE Account_Owner__c LIKE '%" + owner + "%' AND Name LIKE '%" + name + "%' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                console.log(err);
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findAccount4 = (owner, name, type) => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Phone, Account_Owner__c  , Type, BillingStreet, BillingCity, BillingState FROM Account WHERE Account_Owner__c LIKE '%" + owner + "%' AND Name LIKE '%" + name + "%' AND Type LIKE '"+ type + "' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                console.log(err);
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findContact = name => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Account_Name_API__c, Name, title, Phone, MobilePhone, Email FROM Contact WHERE Name LIKE '%" + name + "%' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findContact2 = name => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Account_Name_API__c, Name, title, Phone, MobilePhone, Email FROM Contact WHERE Account_Name_API__c LIKE '%" + name + "%' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findContact3 = (account, name) => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Account_Name_API__c, Name, Phone, title, MobilePhone, Email FROM Contact WHERE Account_Name_API__c LIKE '%" + account + "%' AND Name LIKE '%" + name + "%' LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findOpportunity = name => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Name LIKE '%" + name + "%' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findOpportunity2 = name => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Opportunity_Owner__c LIKE '%" + name + "%' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findOpportunity3 = name => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Opp_Account_Name_API__c LIKE '%" + name + "%' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findOpportunity4 = (owner, name, stage, recordt) => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opp_Stage__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Opportunity_Owner__c LIKE '%" + owner + "%' AND Opp_Stage__c LIKE '%" + stage + "%' AND Opp_Account_Name_API__c LIKE '%" + name + "%' AND Opportunity_Record_Type__c LIKE '" + recordt + "' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let findOpportunity5 = (type, owner, name, stage, recordt) => {
-
-    return new Promise((resolve, reject) => {
-        let q = "SELECT Id, Name, Amount, Opportunity_Record_Type__c, Opp_Type__c, Opp_Stage__c, Opportunity_Owner__c, Opp_Account_Name_API__c, Probability, StageName, CloseDate FROM Opportunity WHERE Opp_Type__c LIKE '" + type + "%' AND Opportunity_Owner__c LIKE '%" + owner + "%' AND Opp_Stage__c LIKE '%" + stage + "%' AND Opp_Account_Name_API__c LIKE '%" + name + "%' AND Opportunity_Record_Type__c LIKE '" + recordt + "' AND (NOT Opportunity_Record_Type__c LIKE 'Services Project Request%') ORDER BY Probability DESC LIMIT 10";
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let getTopOpportunities = count => {
-
-    count = count || 15;
-
-    return new Promise((resolve, reject) => {
-        var q = "SELECT Id, Name, Amount, Probability, StageName, CloseDate FROM Opportunity WHERE isClosed=false ORDER BY amount DESC LIMIT " + count;
-        org.query({query: q}, (err, resp) => {
-            if (err) {
-                console.error(err);
-                reject("An error as occurred");
-            } else {
-                resolve(resp.records);
-            }
-        });
-    });
-
-};
-
-let createContact = contact => {
-
-    return new Promise((resolve, reject) => {
-        let c = nforce.createSObject('Contact');
-        c.set('firstName', contact.firstName);
-        c.set('lastName', contact.lastName);
-        c.set('title', contact.title);
-        c.set('phone', contact.phone);
-        org.insert({sobject: c}, (err, resp) => {
-            if (err) {
-                console.error(err);
-                reject("An error occurred while creating a contact");
-            } else {
-                resolve(c);
-            }
-        });
-    });
-
-};
 
 let createCase = newCase => {
 
@@ -258,8 +36,17 @@ let createCase = newCase => {
         let c = nforce.createSObject('Case');
         c.set('subject', newCase.subject);
         c.set('description', newCase.description);
-        c.set('origin', 'Slack');
         c.set('status', 'New');
+		c.set('Resource_Assignment_Due_Date__c', newCase.date)
+		c.set('Project_Scope__c', newCase.scope)
+		c.set('Submitted_By__c', newCase.name)
+		c.set('Submitter_Email__c', newCase.email)
+		c.set('Account_Manager__c', newCase.AM)
+		c.set('Project_Manager__c', newCase.PJM)
+		c.set('Advisory_Services__c', newCase.AS)
+		c.set('Solutions_Engineer__c', newCase.SE)
+		c.set('RecordTypeId', '012600000005OU0')
+		
 
         org.insert({sobject: c}, err => {
             if (err) {
@@ -273,21 +60,40 @@ let createCase = newCase => {
 
 };
 
+let findmyopencases = email => {
+
+    return new Promise((resolve, reject) => {
+         let q = "SELECT Id, CaseNumber, Subject, Description, Resource_Assignment_Due_Date__c, Status,Project_Scope__c, AM_Req__c, AS_Req__c, PJM_Req__c, SE_Req__c FROM Case WHERE Submitter_Email__c LIKE '%" + email + "%' AND RecordTypeId = '012600000005OU0' AND Status <> 'Closed' ORDER BY Resource_Assignment_Due_Date__c ASC LIMIT 20";
+        org.query({query: q}, (err, resp) => {
+            if (err) {
+                reject("An error as occurred");
+            } else {
+                resolve(resp.records);
+            }
+        });
+    });
+
+};
+
+let findmyclosedcases = email => {
+
+    return new Promise((resolve, reject) => {
+         let q = "SELECT Id, Subject, CaseNumber, Description, Resource_Assignment_Due_Date__c, Status,Project_Scope__c, AS_Assignments__c, Account_Manager_Assigned__c, Project_Manager_Assigned__c, SE_assigned_to_GTM_Project__c FROM Case WHERE Submitter_Email__c LIKE '%" + email + "%' AND RecordTypeId = '012600000005OU0' AND Status = 'Closed' ORDER BY Resource_Assignment_Due_Date__c DESC LIMIT 20";
+        org.query({query: q}, (err, resp) => {
+            if (err) {
+                reject("An error as occurred");
+            } else {
+                resolve(resp.records);
+            }
+        });
+    });
+
+};
+
+
 login();
 
 exports.org = org;
-exports.findAccount = findAccount;
-exports.findAccount2 = findAccount2;
-exports.findAccount3 = findAccount3;
-exports.findAccount4 = findAccount4;
-exports.findContact = findContact;
-exports.findContact2 = findContact2;
-exports.findContact3 = findContact3;
-exports.findOpportunity = findOpportunity;
-exports.findOpportunity2 = findOpportunity2;
-exports.findOpportunity3 = findOpportunity3;
-exports.findOpportunity4 = findOpportunity4;
-exports.findOpportunity5 = findOpportunity5;
-exports.getTopOpportunities = getTopOpportunities;
-exports.createContact = createContact;
+exports.findmyopencases = findmyopencases;
+exports.findmyclosedcases = findmyclosedcases;
 exports.createCase = createCase;
