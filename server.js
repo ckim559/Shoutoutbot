@@ -772,63 +772,69 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 				askSubject(response, convo);
 				convo.next();	
 			}
-			else if(edit.toUpperCase() == 'Assignment Due Date' || edit.toUpperCase() == '2. Assignment Due Date' || edit == '2' || edit == '2.')
+			else if(edit.toUpperCase() == 'ASSIGNMENT DUE DATE' || edit.toUpperCase() == '2. ASSIGNMENT DUE DATE' || edit == '2' || edit == '2.')
 			{
 				askDate(response, convo);
 				convo.next();
 			}
-			else if(edit.toUpperCase() == 'Project Target Start Date' || edit.toUpperCase() == '3. Project Target Start Date' || edit == '3' || edit == '3.')
+			else if(edit.toUpperCase() == 'PROJECT TARGET START DATE' || edit.toUpperCase() == '3. PROJECT TARGET START DATE' || edit == '3' || edit == '3.')
 			{
 				askStart(response, convo);
 				convo.next();
 				
 			}
-			else if(edit.toUpperCase() == 'Project Target Live Date' || edit.toUpperCase() == '4. Project Target Live Date' || edit == '4' || edit == '4.')
+			else if(edit.toUpperCase() == 'PROJECT TARGET LIVE DATE' || edit.toUpperCase() == '4. PROJECT TARGET LIVE DATE' || edit == '4' || edit == '4.')
 			{
 				askLive(response, convo);
 				convo.next();
 			}
-			else if(edit.toUpperCase() == 'Project Scope' || edit.toUpperCase() == '5. Project Scope' || edit == '5' || edit == '5.')
+			else if(edit.toUpperCase() == 'PROJECT SCOPE' || edit.toUpperCase() == '5. PROJECT SCOPE' || edit == '5' || edit == '5.')
 			{
 				askScope(response, convo);
 				convo.next();
 			}
-			else if(edit.toUpperCase() == 'Project Description' || edit.toUpperCase() == '6. Project Description' || edit == '6' || edit == '6.')
+			else if(edit.toUpperCase() == 'PROJECT DESCRIPTION' || edit.toUpperCase() == '6. PROJECT DESCRIPTION' || edit == '6' || edit == '6.')
 			{
 				askDescription(response, convo);
 				convo.next();
 			}
-			else if(edit.toUpperCase() == 'Estimated Hours' || edit.toUpperCase() == '7. Estimated Hours' || edit == '7' || edit == '7.')
+			else if(edit.toUpperCase() == 'ESTIMATED HOURS' || edit.toUpperCase() == '7. ESTIMATED HOURS' || edit == '7' || edit == '7.')
 			{
 				askHours(response, convo);
 				convo.next();
 				
 			}
-			else if(edit.toUpperCase() == 'Project Manager Required?' || edit.toUpperCase() == '8. Project Manager Required?' || edit == '8' || edit == '8.')
+			else if(edit.toUpperCase() == 'PROJECT MANAGER REQUIRED?' || edit.toUpperCase() == '8. PROJECT MANAGER REQUIRED?' || edit == '8' || edit == '8.')
 			{
 				askPJM(response, convo);
 				convo.next();
 				
 			}
-			else if(edit.toUpperCase() == 'Account Manager Required?' || edit.toUpperCase() == '9. Account Manager Required?' || edit == '9' || edit == '9.')
+			else if(edit.toUpperCase() == 'ACCOUNT MANAGER REQUIRED?' || edit.toUpperCase() == '9. ACCOUNT MANAGER REQUIRED?' || edit == '9' || edit == '9.')
 			{
 				askAM(response, convo);
 				convo.next();	
 			}
-			else if(edit.toUpperCase() == 'Solutions Engineer Required?' || edit.toUpperCase() == '10. Solutions Engineer Required?' || edit == '10' || edit == '10.')
+			else if(edit.toUpperCase() == 'SOLUTIONS ENGINEER REQUIRED?' || edit.toUpperCase() == '10. SOLUTIONS ENGINEER REQUIRED?' || edit == '10' || edit == '10.')
 			{
 				askSE(response, convo);
 				convo.next();
 			}
-			else if(edit.toUpperCase() == 'Advisory Services Required?' || edit.toUpperCase() == '11. Advisory Services Required?' || edit == '11' || edit == '11.')
+			else if(edit.toUpperCase() == 'ADVISORY SERVICES REQUIRED?' || edit.toUpperCase() == '11. ADVISORY SERVICES REQUIRED?' || edit == '11' || edit == '11.')
 			{
 				askAS(response, convo);
 				convo.next();
 			}
-			else if(edit.toUpperCase() == 'Cancel Edit' || edit.toUpperCase() == '12. Cancel Edit' || edit == '12' || edit == '12.')
+			else if(edit.toUpperCase() == 'CANCEL EDIT' || edit.toUpperCase() == '12. CANCEL EDIT' || edit == '12' || edit == '12.')
 			{
 				askFinalize(response, convo);
 				convo.next();
+			}
+			else
+			{
+				bot.reply(message, "Sorry that is not a valid option. Please try again.");
+ 				asKEdit(response, convo);
+				convo.next();	
 			}
 		});	
 	};
