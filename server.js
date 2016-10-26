@@ -852,7 +852,7 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 				}
 				else if(retry.toUpperCase() == 'NO' || retry.toUpperCase() == '2. NO' || retry == '2' || retry == '2.')
 				{
-				   bot.reply(message, "Goodbye");
+				   bot.reply(message, "No worries! Let me know if you change your mind.");
 				   convo.next();
 				}
 				else
