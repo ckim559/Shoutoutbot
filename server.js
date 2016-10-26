@@ -27,7 +27,7 @@ controller.hears(['hello', 'hi', 'hey', 'greetings', 'help'], 'direct_message,di
 	
 	
 	bot.reply(message, {
-        text: `Hello ` + first + `, I'm Resourcingbot! \n To create a resource request in Salesforce, please type "Create Case". \n To search for cases type "Find my open cases", "Find my closed cases" or "Find case number 8827"`
+        text: `Hello ` + first + `, I'm Resourcingbot! \n To create a resource request in Salesforce, please type "Create Case". \n To search for cases you can ask me things like "Find my open cases", "Find my closed cases" or "Find case number 8827"`
     });
 	});
 });
@@ -872,6 +872,6 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 
 controller.hears(['(.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
     bot.reply(message, {
-        text: `I'm sorry, I didn't understand that. \n To create a resource request in Salesforce, please type "Create Case". \n To search for cases type "Find my open cases" or "Find my closed cases""`
+        text: `I'm sorry, I didn't understand that. \n To create a resource request in Salesforce, please type "Create Case". \n To search for cases you can ask me things like "Find my open cases", "Find my closed cases" or "Find case number 8827"`
     });
 });
