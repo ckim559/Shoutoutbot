@@ -66,7 +66,7 @@ let createCase = newCase => {
 let findmyopencases = email => {
 
     return new Promise((resolve, reject) => {
-         let q = "SELECT Id, CaseNumber, Subject, Estimated_Hours__c, Project_Target_Start_Date__c, Project_Target_Live_Date__c, Description, Resource_Assignment_Due_Date__c, Status,Project_Scope__c, AM_Req__c, AS_Req__c, PJM_Req__c, SE_Req__c FROM Case WHERE Submitter_Email__c LIKE '%" + email + "%' AND RecordTypeId = '012600000005OU0' AND Status <> 'Closed' ORDER BY Resource_Assignment_Due_Date__c ASC LIMIT 20";
+         let q = "SELECT Id, CaseNumber, Subject, Estimated_Hours__c, Project_Target_Start_Date__c, Project_Target_Live_Date__c, Description, Resource_Assignment_Due_Date__c, Status,Project_Scope__c, AM_Req__c, AS_Req__c, PJM_Req__c, SE_Req__c FROM Case WHERE Submitter_Email__c LIKE '%" + email + "%' AND RecordTypeId = '012600000005OU0' AND Status <> 'Closed' ORDER BY Resource_Assignment_Due_Date__c DESC LIMIT 20";
         org.query({query: q}, (err, resp) => {
             if (err) {
                 reject("An error as occurred");
@@ -81,7 +81,7 @@ let findmyopencases = email => {
 let findmyclosedcases = email => {
 
     return new Promise((resolve, reject) => {
-         let q = "SELECT Id, Subject, CaseNumber, Estimated_Hours__c, Project_Target_Start_Date__c, Project_Target_Live_Date__c, Description, Resource_Assignment_Due_Date__c, Status,Project_Scope__c, AS_Assignments__c, Account_Manager_Assigned__c, Project_Manager_Assigned__c, SE_assigned_to_GTM_Project__c FROM Case WHERE Submitter_Email__c LIKE '%" + email + "%' AND RecordTypeId = '012600000005OU0' AND Status = 'Closed' ORDER BY Resource_Assignment_Due_Date__c DESC LIMIT 20";
+         let q = "SELECT Id, Subject, CaseNumber, Estimated_Hours__c, Project_Target_Start_Date__c, Project_Target_Live_Date__c, Description, Resource_Assignment_Due_Date__c, Status,Project_Scope__c, AS_Assignments__c, Account_Manager_Assigned__c, Project_Manager_Assigned__c, SE_assigned_to_GTM_Project__c FROM Case WHERE Submitter_Email__c LIKE '%" + email + "%' AND RecordTypeId = '012600000005OU0' AND Status = 'Closed' ORDER BY Resource_Assignment_Due_Date__c ASC LIMIT 20";
         org.query({query: q}, (err, resp) => {
             if (err) {
                 reject("An error as occurred");
