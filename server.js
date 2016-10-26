@@ -833,7 +833,7 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 			else
 			{
 				bot.reply(message, "Sorry that is not a valid option. Please try again.");
- 				asKEdit(response, convo);
+ 				askEdit(response, convo);
 				convo.next();	
 			}
 		});	
