@@ -49,7 +49,7 @@ controller.hears(['Find my open cases'], 'direct_message,direct_mention,mention'
 
 });
 
-controller.hears(['find case number (.*)', 'case number (.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
+controller.hears(['find case number (.*)', 'case number (.*)',  'find case (.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
 
     let casenumber = message.match[1];
     salesforce.findcasenumber(casenumber)
