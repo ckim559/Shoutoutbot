@@ -287,7 +287,7 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 
 	let askLive = (response, convo) => {
 
-        convo.ask("*What is the project target live date?* (Please format the date as YYYY-MM-DD)", (response, convo) => {
+        convo.ask("*What is the project target live (project end) date?* (Please format the date as YYYY-MM-DD)", (response, convo) => {
             live = response.text;
 			var today = moment();
 			var re = /^\d{4}-\d{2}-\d{2}$/
