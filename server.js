@@ -24,10 +24,11 @@ controller.hears(['hello', 'hi', 'hey', 'greetings', 'help'], 'direct_message,di
 	
     bot.api.users.info({user: message.user}, function(err, info){
 	let first = info.user.profile.first_name
+	let last = info.user.profile.last_name
 	
 	
 	bot.reply(message, {
-        text: `Hello ` + first + `, I'm Resourcingbot! \n To create a resource request in Salesforce, please type "Create Case". \n To search for cases you can ask me things like "Find my open cases", "Find my closed cases" or "Find case number 8827"`
+        text: `Hello ` + first + `, I'm Resourcingbot! \n -To create a resource request in Salesforce, please type "Create Case". \n -To search for cases you can ask me things like "Find my open cases", "Find my closed cases", "Find case number 8827", "Find case subject GTM", "Find case owner `+ first + ` ` + last +  `" or type "Case Search".`
     });
 	});
 });
@@ -61,6 +62,31 @@ controller.hears(['find case number (.*)', 'case number (.*)',  'find case (.*)'
 
 });
 
+controller.hears(['find case subject (.*)', 'case subject (.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
+
+    let criteria = message.match[1];
+    salesforce.findcasesubject(criteria)
+        .then(cases => bot.reply(message, {
+            text: "I found these cases matching subject '" + criteria + "':",
+            attachments: formatter.formatClosedCases(cases)
+        }))
+        .catch(error => bot.reply(message, error));
+
+});
+
+controller.hears(['find case owner (.*)', 'case owner (.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
+
+    let criteria = message.match[1];
+    salesforce.findcaseowner(criteria)
+        .then(cases => bot.reply(message, {
+            text: "I found these cases owned by '" + criteria + "':",
+            attachments: formatter.formatClosedCases(cases)
+        }))
+        .catch(error => bot.reply(message, error));
+
+});
+
+
 controller.hears(['Find my closed cases'], 'direct_message,direct_mention,mention', (bot, message) => {
 	
 	bot.api.users.info({user: message.user}, function(err, info){
@@ -77,6 +103,100 @@ controller.hears(['Find my closed cases'], 'direct_message,direct_mention,mentio
 
 });
 
+controller.hears(['case search'], 'direct_message,direct_mention,mention', (bot, message) => {
+	
+	let search,
+		criteria;
+
+    let askSearch = (response, convo) => {
+
+    convo.ask("*What is the search criteria?*"+ "\n" + "1. Creator" + "\n" + "2. Case Number" + "\n" + "3. Case Subject" + "\n" + "4. Cancel", (response, convo) => {
+        search = response.text;
+			
+		if(search.toUpperCase() == 'CREATOR' || search.toUpperCase() == '1. CREATOR' || search == '1' || search == '1.')
+		{
+			askCreator(response, convo);
+			convo.next();
+		}
+		else if(search.toUpperCase() == 'CASE NUMBER' || search.toUpperCase() == '2. CASE NUMBER' || search == '2' || search == '2.')
+		{
+			askCNumber(response, convo);
+			convo.next();
+		}
+		else if(search.toUpperCase() == 'CASE SUBJECT' || search.toUpperCase() == '3. CASE SUBJECT' || search == '3' || search == '3.')
+		{
+			askCSubject(response, convo);
+			convo.next();
+		}
+		else if(search.toUpperCase() == 'CANCEL' || search.toUpperCase() == '4. CANCEL' || search == '4' || search == '4.')
+		{
+			bot.reply(message, `No worries! If you change your mind, type "case search" to try again.`);
+			convo.next();
+		}
+		else
+		{
+			bot.reply(message, {
+				text: `Sorry that is not a valid option. Please try again`
+			});
+				askSearch(response, convo);
+				convo.next();
+		}
+		
+		});
+
+    }; 
+		
+		let askCreator = (response, convo) => {
+			convo.ask("*Please type in the case creator's name:*", (response, convo) => {
+			criteria = response.text;
+		
+		 salesforce.findcaseowner(criteria)
+        .then(cases => bot.reply(message, {
+            text: "I found these cases created by '" + criteria + "':",
+            attachments: formatter.formatClosedCases(cases)
+        }))
+        .catch(error => bot.reply(message, error));
+		convo.next();
+		
+		});
+		};
+		
+		let askCNumber = (response, convo) => {
+			convo.ask("*Please type in the case number:*", (response, convo) => {
+			criteria = response.text;
+		
+		 salesforce.findcasenumber(criteria)
+        .then(cases => bot.reply(message, {
+            text: "I found this case matching number '" + criteria + "':",
+            attachments: formatter.formatClosedCases(cases)
+        }))
+        .catch(error => bot.reply(message, error));
+		convo.next();
+		
+		});
+		};
+		
+		let askCSubject = (response, convo) => {
+			convo.ask("*Please type in the case subject:*", (response, convo) => {
+			criteria = response.text;
+		
+		 salesforce.findcasesubject(criteria)
+        .then(cases => bot.reply(message, {
+            text: "I found these cases matching subject '" + criteria + "':",
+            attachments: formatter.formatClosedCases(cases)
+        }))
+        .catch(error => bot.reply(message, error));
+		convo.next();
+		
+		});
+		};
+		
+		
+		
+	bot.reply(message, "OK, I can help you with that!");
+    bot.startConversation(message, askSearch);
+
+});
 
 
 controller.hears(['create case', 'new case'], 'direct_message,direct_mention,mention', (bot, message) => {
@@ -90,7 +210,7 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 		live,
 		PJM,
 		PJM2,
-		AM,
+		search,
 		AM2,
 		SE,
 		SE2,
@@ -447,10 +567,10 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 		
 
         convo.ask("*Does the project require an Account Manager?*"+ "\n" + "1. Yes" + "\n" + "2. No", (response, convo) => {
-            AM = response.text;
-			if(AM.toUpperCase() == 'YES' || AM.toUpperCase() == '1. YES' || AM == '1' || AM == '1.')
+            search = response.text;
+			if(search.toUpperCase() == 'YES' || search.toUpperCase() == '1. YES' || search == '1' || search == '1.')
 				{
-					AM = 'true';
+					search = 'true';
 					AM2 = 'Yes';
 					if(complete == '1')
 					{	
@@ -463,9 +583,9 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 					convo.next();
 					}
 				}
-				else if(AM.toUpperCase() == 'NO' || AM.toUpperCase() == '2. NO' || AM == '2' || AM == '2.')
+				else if(search.toUpperCase() == 'NO' || search.toUpperCase() == '2. NO' || search == '2' || search == '2.')
 				{
-					AM = 'false';
+					search = 'false';
 					AM2 = 'No';
 					if(complete == '1')
 					{	
@@ -478,7 +598,7 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 					convo.next();
 					}
 				}
-				else if(AM.toUpperCase() == "'!CANCEL'" || AM.toUpperCase() == '!CANCEL')
+				else if(search.toUpperCase() == "'!CANCEL'" || search.toUpperCase() == '!CANCEL')
 				{
 					askRetry(response, convo);
 					convo.next();
@@ -740,7 +860,7 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 			
 			else if(finalize.toUpperCase() == 'CONFIRM')
 			{	
-				salesforce.createCase({subject: subject, start: start, live: live, hours: hours, description: description, scope: scope, name: name, email: email, PJM: PJM, AM: AM, SE: SE, AS: AS, date: date})
+				salesforce.createCase({subject: subject, start: start, live: live, hours: hours, description: description, scope: scope, name: name, email: email, PJM: PJM, search: search, SE: SE, AS: AS, date: date})
                 .then(_case => {
                     bot.reply(message, {
                        text: "Your resourcing case has been generated:",
@@ -878,6 +998,6 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 
 controller.hears(['(.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
     bot.reply(message, {
-        text: `I'm sorry, I didn't understand that. \n To create a resource request in Salesforce, please type "Create Case". \n To search for cases you can ask me things like "Find my open cases", "Find my closed cases" or "Find case number 8827"`
+        text: `I'm sorry, I didn't understand that. \n -To create a resource request in Salesforce, please type "Create Case". \n -To search for cases you can ask me things like "Find my open cases", "Find my closed cases", "Find case number 8827", "Find case subject GTM", "Find case owner `+ first + ` ` + last +  `" or type "Case Search".`
     });
 });
