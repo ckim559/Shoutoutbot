@@ -32,6 +32,7 @@ let formatOpenCases = cases => {
 			fields.push({title: "Solutions Engineer Required?:", value: _case.get("SE_Req__c"), short: true});
 			fields.push({title: "Advisory Services Required?:", value: _case.get("AS_Req__c"), short: true});
 			fields.push({title: "Case URL:", value: 'https://login.salesforce.com/' + _case.get("id"), short: false});
+			fields.push({title: "Created By:", value: _case.get("Submitted_By__c"), short: false});
             attachments.push({color: color, fields: fields});
         });
         return attachments;
@@ -62,6 +63,7 @@ let formatClosedCases = cases => {
 			fields.push({title: "Solutions Engineer(s):", value: _case.get("SE_assigned_to_GTM_Project__c"), short: true});
 			fields.push({title: "AS Resources:", value: _case.get("AS_Assignments__c"), short: true});
 			fields.push({title: "Case URL:", value: 'https://login.salesforce.com/' + _case.get("id"), short: false});
+			fields.push({title: "Created By:", value: _case.get("Submitted_By__c"), short: false});
             attachments.push({color: color, fields: fields});
         });
         return attachments;
