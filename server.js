@@ -997,7 +997,14 @@ controller.hears(['create case', 'new case'], 'direct_message,direct_mention,men
 
 
 controller.hears(['(.*)'], 'direct_message,direct_mention,mention', (bot, message) => {
+	
+	bot.api.users.info({user: message.user}, function(err, info){
+	let first = info.user.profile.first_name
+	let last = info.user.profile.last_name
+	
     bot.reply(message, {
-        text: `I'm sorry, I didn't understand that. \n -To create a resource request in Salesforce, please type "Create Case". \n -To search for cases you can ask me things like "Find my open cases", "Find my closed cases", "Find case number 8827", "Find case subject GTM", "Find case owner `+ first + ` ` + last +  `" or type "Case Search".`
+        text: `I'm sorry, I didn't understand that. \n -To create a resource request in Salesforce, please type "Create Case". \n -To search for cases you can ask me things like "Find my open cases", "Find my closed cases", "Find case number 8827", "Find case subject GTM", "Find case owner ` + first + ` ` + last + `" or type "Case Search".`
     });
+});
+
 });
