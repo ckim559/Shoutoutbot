@@ -1,5 +1,5 @@
 {
-  "name": "Salesforcebot",
+  "name": "ShoutoutBot",
   "description": "Salesforce bot for Slack",
   "env": {
     "SF_CLIENT_ID": {
