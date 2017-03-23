@@ -1,5 +1,7 @@
 "use strict";
 
+const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
+
 let nforce = require('nforce'),
 
     SF_CLIENT_ID = process.env.SF_CLIENT_ID,
