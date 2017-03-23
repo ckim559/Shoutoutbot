@@ -4,12 +4,12 @@ let color = "#009cdb";
 
 let formatShoutouts = shoutouts => {
 	
-	color = "#dbad00";
 
     if (shoutouts && shoutouts.length>0) {
 
-        let attachments = [];
-		color = "#009cdb";
+        let attachments = [{
+		color: "#009cdb", fallback: "Vote!"
+		}];
         shoutouts.forEach(Services_Shoutout__c => {
             let fields = [];
             fields.push({title: 'Shoutout #' + Services_Shoutout__c.get("Request_Number__c") +":", value: "", short: true});
