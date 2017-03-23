@@ -6,10 +6,7 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 
 let nforce = require('nforce'),
 
-    SF_CLIENT_ID = '3MVG9GnaLrwG9TQS9I6HiWzTalFuMpST9GkJ.A3D9xV6l7rdDVAJCFzefgyWzct7PMiO7GjculZrai4xROjMn',
-    SF_CLIENT_SECRET = '8252968675272935841',
-    SF_USER_NAME = 'integration@freewheel.tv.stickyads',
-    SF_PASSWORD = 'FR33w2016',
+
 
     org = nforce.createConnection({
 		environment: 'sandbox',
