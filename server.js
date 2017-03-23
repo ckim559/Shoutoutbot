@@ -10,10 +10,9 @@ let nforce = require('nforce'),
     SF_CLIENT_SECRET = process.env.SF_CLIENT_SECRET,
     SF_USER_NAME = process.env.SF_USER_NAME,
     SF_PASSWORD = process.env.SF_PASSWORD,
-
-
-    org = nforce.createConnection({
-		environment: 'sandbox',
+ 
+org = nforce.createConnection({
+	environment: 'sandbox',
         clientId: SF_CLIENT_ID,
         clientSecret: SF_CLIENT_SECRET,
         redirectUri: 'http://localhost:3000/oauth/_callback',
@@ -320,3 +319,4 @@ controller.hears(['(.*)'], 'direct_message,direct_mention,mention', (bot, messag
 });
 
 });
+
