@@ -1,3 +1,5 @@
+"use strict";
+
 let nforce = require('nforce'),
 
     SF_CLIENT_ID = process.env.SF_CLIENT_ID,
@@ -5,7 +7,7 @@ let nforce = require('nforce'),
     SF_USER_NAME = process.env.SF_USER_NAME,
     SF_PASSWORD = process.env.SF_PASSWORD,
 
- org = nforce.createConnection({
+    org = nforce.createConnection({
 		environment: 'sandbox',
         clientId: SF_CLIENT_ID,
         clientSecret: SF_CLIENT_SECRET,
