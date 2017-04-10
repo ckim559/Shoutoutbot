@@ -121,6 +121,13 @@ controller.hears(['shoutout'], 'direct_message,direct_mention,mention', (bot, me
 				if(!err && resp.records) {
 
 				var acc = resp.records[0];
+				
+				if(acc == null)
+					{
+						bot.reply(message, "*Submission error, please try again later*");
+						convo.next();
+					}
+					
 				let id = acc.get('ID');
 			
 				salesforce.createShoutout({person: person, reason: reason, id: id, slackId: slackId})
